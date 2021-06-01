@@ -1,31 +1,27 @@
+//
+//  Binder.swift
+//  https://github.com/GodL/Binder
+//
+//  547188371@qq.com
+//  Created by GodL on 2021/3/8.
+//
 
-struct AnyBinder<Value>: Bindable {
+public struct Binder<Value>: Consumable {
+    let _handler: (Value) -> Void
     
-    let _binder: (Value) -> Void
-    
-    init<Binder: Bindable>(_ binder: Binder) where Binder.Value == Value {
-        _binder = {
-            binder.bind(with: $0)
+    public init<Target>(target: Target, _ handler: @escaping (Target, Value) -> Void) {
+        _handler = {
+            handler(target, $0)
         }
     }
     
-    func bind(with value: Value) {
-        _binder(value)
-    }
-}
-
-public struct BinderBase<Value>: Bindable {
-    
-    private let _event: (Value) -> Void
-    
-    public init<Target: AnyObject>(target: Target, _ bind: @escaping (Target, Value) -> Void) {
-        _event = { value in
-            bind(target, value)
+    public init<Target: AnyObject>(target: Target, keyPath: ReferenceWritableKeyPath<Target, Value>) {
+        _handler = {
+            target[keyPath: keyPath] = $0
         }
     }
     
-    
-    public func bind(with value: Value) {
-        _event(value)
+    public func consume(with value: Value) {
+        _handler(value)
     }
 }

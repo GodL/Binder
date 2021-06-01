@@ -1,18 +1,18 @@
 //
-//  File.swift
-//  
+//  Filter.swift
+//  https://github.com/GodL/Binder
 //
-//  Created by lihao10 on 2021/3/5.
+//  547188371@qq.com
+//  Created by GodL on 2021/3/10.
 //
 
 extension Producable {
     public func filter(_ predicate: @escaping (Value) -> Bool) -> Binding<Value> {
-        let filter = FilterBinding(source: self.asBinding(), predicate)
-        return filter
+        FilterBindings(source: self.asBinding(), predicate)
     }
 }
 
-final class FilterBinding<Value>: Binding<Value>, FlowType {
+final class FilterBindings<Value>: Binding<Value>, Flowable {
     let predicate: (Value) -> Bool
     
     init(source: Binding<Value>, _ predicate: @escaping (Value) -> Bool) {

@@ -1,17 +1,12 @@
 //
-//  File.swift
-//  
+//  Flowable.swift
+//  https://github.com/GodL/Binder
 //
-//  Created by lihao10 on 2021/3/4.
+//  547188371@qq.com
+//  Created by GodL on 2021/3/10.
 //
 
-public protocol Producable {
-    associatedtype Value
-    
-    func asBinding() -> Binding<Value>
-}
-
-public protocol FlowType {
+public protocol Flowable {
     associatedtype Value
     
     func flow(with value: Value)
@@ -19,24 +14,25 @@ public protocol FlowType {
     func subscribe<Producer: Producable>(on producer: Producer) where Producer.Value == Value
 }
 
-extension FlowType {
+extension Flowable {
     public func subscribe<Producer: Producable>(on producer: Producer) where Producer.Value == Value {
-        producer.asBinding().subBindings.append(AnyFlow(self))
+        producer.asBinding().flows.append(AnyFlow(self))
     }
+
 }
 
-public struct AnyFlow: FlowType {
+public struct AnyFlow: Flowable {
     
-    let _flow: (Any) -> Void
+    let _handler: (Any) -> Void
     
-    public init<Flow: FlowType>(_ flow: Flow) {
-        _flow = {
+    public init<Flow: Flowable>(_ flow: Flow) {
+        _handler = {
             guard let value = $0 as? Flow.Value else { fatalError() }
             flow.flow(with: value)
         }
     }
     
     public func flow(with value: Any) {
-        _flow(value)
+        _handler(value)
     }
 }
