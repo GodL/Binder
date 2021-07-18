@@ -10,7 +10,7 @@ import UIKit.UITextField
 
 extension Bind where Base : UITextField {
     
-    public var text: Binder<String> {
+    public var text: Binder<String?> {
         Binder(target: self.base) {
             $0.text = $1
         }
@@ -19,6 +19,12 @@ extension Bind where Base : UITextField {
     public var attributedText: Binder<NSAttributedString?> {
         Binder(target: self.base) {
             $0.attributedText = $1
+        }
+    }
+    
+    public var isSecureTextEntry: Binder<Bool> {
+        Binder(target: self.base) {
+            $0.isSecureTextEntry = $1
         }
     }
 }

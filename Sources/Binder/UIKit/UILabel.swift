@@ -10,13 +10,13 @@ import UIKit.UILabel
 
 extension Bind where Base : UILabel {
     
-    public var text: Binder<String> {
+    public var text: Binder<String?> {
         Binder(target: self.base) {
             $0.text = $1
         }
     }
     
-    public var arrtibutedText: Binder<NSAttributedString> {
+    public var arrtibutedText: Binder<NSAttributedString?> {
         Binder(target: self.base) {
             $0.attributedText = $1
         }

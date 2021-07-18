@@ -4,17 +4,22 @@ import UIKit
 
 final class BinderTests: XCTestCase {
     
-    
     @Binding
-    var startWith: String  = "123"
+    var age: Int = 0
+    
+    struct Person {
+        var name: String = ""
+        
+        var age: Int = 1
+    }
+    
+    func testFilter() {
+        var person = Person()
+        
+    }
     
     func testExample() {
-        
-        let label = UILabel()
-        
-    
-        
-        XCTAssertEqual(label.text, "123")
+
         
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct

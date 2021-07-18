@@ -10,7 +10,7 @@ import UIKit.UITextView
 
 extension Bind where Base : UITextView {
     
-    public var text: Binder<String> {
+    public var text: Binder<String?> {
         Binder(target: self.base) {
             $0.text = $1
         }
