@@ -7,6 +7,10 @@
 //
 
 extension Producable {
+    
+    /// Invokes an action for each event in the `binding`.
+    /// - Parameter handler: A action that to invoke
+    /// - Returns: The source `binding` with the side-effecting behavior applied.
     public func `do`(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
         DoBinding(source: self.asBinding(), handler)
     }

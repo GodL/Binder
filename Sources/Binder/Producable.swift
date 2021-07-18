@@ -6,7 +6,7 @@
 //  Created by GodL on 2021/3/8.
 //
 
-public protocol Producable {
+protocol Producable {
     associatedtype Value
     
     func asBinding() -> Binding<Value>

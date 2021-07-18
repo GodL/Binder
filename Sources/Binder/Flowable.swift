@@ -6,7 +6,7 @@
 //  Created by GodL on 2021/3/10.
 //
 
-public protocol Flowable {
+protocol Flowable {
     associatedtype Value
     
     func flow(with value: Value)
@@ -15,13 +15,14 @@ public protocol Flowable {
 }
 
 extension Flowable {
-    public func subscribe<Producer: Producable>(on producer: Producer) where Producer.Value == Value {
-        producer.asBinding().flows.append(AnyFlow(self))
+    func subscribe<Producer: Producable>(on producer: Producer) where Producer.Value == Value {
+        producer.asBinding().subscribe(AnyFlow(self))
     }
 
 }
 
-public struct AnyFlow: Flowable {
+/// A type-erased Flowable value
+struct AnyFlow: Flowable {
     
     let _handler: (Any) -> Void
     

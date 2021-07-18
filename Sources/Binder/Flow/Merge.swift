@@ -7,10 +7,17 @@
 //
 
 extension Producable {
+    
+    /// Merges all elements of a `binding` sequence into a `binding` value
+    /// - Parameter sequence: A sequence `binding` to merge.
+    /// - Returns: A `binding` that incorporates a `binding` sequence
     public func merge<S: Sequence>(_ sequence: S) -> Binding<Value> where S.Element : Producable, S.Element.Value == Value {
         MergeBinding(source: self.asBinding(), sequence: sequence)
     }
     
+    /// Merges all elements of a `binding` array into a `binding` value
+    /// - Parameter sequence: An array `binding` to merge.
+    /// - Returns: A `binding` that incorporates a `binding` array
     public func merge<Producer: Producable>(_ producers: Producer ...) -> Binding<Value> where Producer.Value == Value {
         MergeBinding(source: self.asBinding(), sequence: producers)
     }

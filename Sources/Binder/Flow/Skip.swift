@@ -8,16 +8,24 @@
 import Foundation
 
 extension Producable {
-    public func skip(_ count: Int) -> Binding<Value> {
+    
+    /// Bypasses a specified number of values in a `binding`  and then returns the remaining values.
+    /// - Parameter count: The number of values to skip.
+    /// - Returns: A `binding` that ignores the first count values.
+    public func skip(_ count: Int = 1) -> Binding<Value> {
         SkipCountBinding(source: self.asBinding(), count: count)
     }
     
+    /// Bypasses a specified time of values in a `binding`  and then returns the remaining values
+    /// - Parameter duration: The time of values to skip.
+    /// - Returns: A `binding` that ignores the duration time values.
     public func skip(_ duration: TimeInterval) -> Binding<Value> {
-        
+        SkipTimeBinding(source: self.asBinding(), duration: duration)
     }
 }
 
 final class SkipCountBinding<Value>: Binding<Value>, Flowable {
+    
     var count: Int
     
     init(source: Binding<Value>, count: Int) {
@@ -28,9 +36,10 @@ final class SkipCountBinding<Value>: Binding<Value>, Flowable {
     
     func flow(with value: Value) {
         if count != 0 {
-            self.wrappedValue = value
             count -= 1
+            return
         }
+        self.wrappedValue = value
     }
 }
 
@@ -38,13 +47,24 @@ final class SkipTimeBinding<Value>: Binding<Value>, Flowable {
     
     let duration: TimeInterval
     
+    var flag: Bool = false
+    
     init(source: Binding<Value>, duration: TimeInterval) {
         self.duration = duration
         super.init(wrappedValue: source.wrappedValue)
         self.subscribe(on: source)
     }
     
+    override func bind(_ consumer: AnyConsumer<Value>) {
+        super.bind(consumer)
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            self.flag = true
+        }
+    }
+    
     func flow(with value: Value) {
-        
+        if flag {
+            self.wrappedValue = wrappedValue
+        }
     }
 }

@@ -9,6 +9,10 @@
 import Foundation
 
 extension Producable {
+    
+    /// Delayed send value
+    /// - Parameter dueTime: The time that delayed
+    /// - Returns: A `binding`that each value is sent with a delay of dueTime .
     public func delay(_ dueTime: DispatchTimeInterval) -> Binding<Value> {
         DelayBinding(source: self.asBinding(), dueTime: dueTime)
     }

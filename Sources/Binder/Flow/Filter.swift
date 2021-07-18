@@ -7,6 +7,10 @@
 //
 
 extension Producable {
+    
+    /// Filters the values specified in a `binding`.
+    /// - Parameter predicate: A function to determine whether the value is to be filtered.
+    /// - Returns: A `binding` that contains values from the input `binding` that satisfy the condition.
     public func filter(_ predicate: @escaping (Value) -> Bool) -> Binding<Value> {
         FilterBindings(source: self.asBinding(), predicate)
     }

@@ -12,7 +12,7 @@ public class Binding<Value>: Producable {
     
     private var consumers: [AnyConsumer<Value>] = []
     
-    var flows: [AnyFlow] = []
+    private var flows: [AnyFlow] = []
     
     public var wrappedValue: Value {
         set {
@@ -35,6 +35,10 @@ public class Binding<Value>: Producable {
         self.consumers.append(consumer)
     }
     
+    func subscribe(_ flow: AnyFlow) {
+        flows.append(flow)
+    }
+    
     private func consume() {
         self.consumers.forEach { $0.consume(with: self._value) }
     }
@@ -43,12 +47,13 @@ public class Binding<Value>: Producable {
         flows.forEach { $0.flow(with: _value) }
     }
     
-    public func asBinding() -> Binding<Value> {
+    func asBinding() -> Binding<Value> {
         self
     }
 }
 
 extension Binding {
+    
     public static func ~><Consumer: Consumable>(lhs: Binding<Value>, consumer: Consumer) where Consumer.Value == Value {
         lhs.bind(AnyConsumer(consumer))
     }
