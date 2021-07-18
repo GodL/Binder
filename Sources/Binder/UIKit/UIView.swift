@@ -6,7 +6,7 @@
 //  Created by GodL on 2021/3/10.
 //
 
-import UIKit
+import UIKit.UIView
 
 extension Bind where Base : UIView {
     

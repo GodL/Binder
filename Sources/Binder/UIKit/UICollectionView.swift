@@ -6,7 +6,7 @@
 //  Created by GodL on 2021/3/10.
 //
 
-import UIKit
+import UIKit.UICollectionView
 
 extension Bind where Base : UICollectionView {
     

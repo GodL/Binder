@@ -6,7 +6,7 @@
 //  Created by GodL on 2021/3/10.
 //
 
-import UIKit
+import UIKit.UIControl
 
 extension Bind where Base : UIControl {
     public var isEnabled: Binder<Bool> {

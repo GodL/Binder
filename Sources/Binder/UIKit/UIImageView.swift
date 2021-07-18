@@ -6,7 +6,7 @@
 //  Created by GodL on 2021/3/10.
 //
 
-import UIKit
+import UIKit.UIImageView
 
 extension Bind where Base : UIImageView {
     public var image: Binder<UIImage?> {

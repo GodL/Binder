@@ -6,7 +6,7 @@
 //  Created by GodL on 2021/3/10.
 //
 
-import UIKit
+import UIKit.UITableView
 
 extension Bind where Base : UITableView {
     public var reloadData: Binder<()> {

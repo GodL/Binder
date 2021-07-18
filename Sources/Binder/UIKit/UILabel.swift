@@ -6,7 +6,7 @@
 //  Created by GodL on 2021/3/9.
 //
 
-import UIKit
+import UIKit.UILabel
 
 extension Bind where Base : UILabel {
     
