@@ -168,6 +168,12 @@ let package = Package(
 )
 ```
 
+### Cocoapods
+
+``` ruby
+pod 'PropertyWrapperBinder', '~> 1.0.1'
+```
+
 ## Author
 
 GodL, 547188371@qq.com. Github [GodL](https://github.com/GodL)
