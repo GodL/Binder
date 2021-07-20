@@ -54,7 +54,15 @@ public class Binding<Value>: Producable {
 
 extension Binding {
     
-    public static func ~><Consumer: Consumable>(lhs: Binding<Value>, consumer: Consumer) where Consumer.Value == Value {
-        lhs.bind(AnyConsumer(consumer))
+    @discardableResult
+    public static func ~><Consumer: Consumable>(lhs: Binding<Value>, consumer: Consumer) -> Disposable where Consumer.Value == Value {
+        let index = lhs.consumers.count
+        let anyConsumer = AnyConsumer(consumer)
+        let dispose = AnyDispose {
+            let nonConsumer = AnyConsumer(NonConsumer<Consumer.Value>())
+            lhs.consumers.replaceSubrange(index..<index + 1, with: [nonConsumer])
+        }
+        lhs.bind(anyConsumer)
+        return dispose
     }
 }
