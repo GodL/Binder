@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "PropertyWrapperBinder"
-  s.version          = "1.0.1"
+  s.version          = "1.0.2"
   s.license          = { :type => "MIT" }
   s.homepage         = "https://github.com/GodL/Binder"
   s.author           = { "GodL" => "547188371@qq.com" }
