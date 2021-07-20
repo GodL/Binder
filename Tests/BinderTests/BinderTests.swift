@@ -38,6 +38,8 @@ final class BinderTests: XCTestCase {
         
         age = 20
         XCTAssertEqual(person.age, 10)
+            
+        
     }
     
     func testMap() {
@@ -168,6 +170,28 @@ final class BinderTests: XCTestCase {
         
     }
     
+    func testDisposable() {
+        let person = Person()
+        let dispose = $age ~> person.bind[\.age]
+        
+        $age.filter { age in
+            age >= 18
+        }.map { age in
+            String(age)
+        } ~> person.bind[\.ageText]
+        
+        age = 18
+        
+        XCTAssertEqual(person.age, 18)
+        XCTAssertEqual(person.ageText, "18")
+        
+        dispose.dispose()
+        
+        age = 19
+        XCTAssertEqual(person.age, 18)
+        XCTAssertEqual(person.ageText, "19")
+    }
+    
     static var allTests = [
         ("testFilter", testFilter),
         ("testMap", testMap),
@@ -177,5 +201,6 @@ final class BinderTests: XCTestCase {
         ("testSkip", testSkip),
         ("testTake", testTake),
         ("testCombine", testCombine),
+        ("testDisposable", testDisposable),
     ]
 }

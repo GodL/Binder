@@ -149,6 +149,30 @@ let label = UILabel()
 $name ~> label.bind.text
 ```
 
+### Disposable
+The binding can unbind, use disposable.dispose to unbind
+```swift
+let person = Person()
+let dispose = $age ~> person.bind[\.age]
+
+$age.filter { age in
+    age >= 18
+}.map { age in
+    String(age)
+} ~> person.bind[\.ageText]
+
+age = 18
+
+XCTAssertEqual(person.age, 18)
+XCTAssertEqual(person.ageText, "18")
+
+dispose.dispose()
+
+age = 19
+XCTAssertEqual(person.age, 18)
+XCTAssertEqual(person.ageText, "19")
+```
+
 ## Installation
 ### Swift Package Manager
 [Swift Package Manager](https://swift.org/package-manager/) is Apple's decentralized dependency manager to integrate libraries to your Swift projects. It is now fully integrated with Xcode 11
@@ -159,7 +183,7 @@ To integrate `ResponderChain` into your project using SPM, specify it in your `P
 let package = Package(
     …
     dependencies: [
-        .package(url: "https://github.com/GodL/Binder.git", from: "1.0.0"),
+        .package(url: "https://github.com/GodL/Binder.git", from: "1.0.2"),
     ],
     targets: [
         .target(name: "YourTarget", dependencies: ["Binder", …])
@@ -171,7 +195,7 @@ let package = Package(
 ### Cocoapods
 
 ``` ruby
-pod 'PropertyWrapperBinder', '~> 1.0.1'
+pod 'PropertyWrapperBinder', '~> 1.0.2'
 ```
 
 ## Author
