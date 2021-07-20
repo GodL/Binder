@@ -9,7 +9,7 @@
 
 public struct AnyConsumer<Value>: Consumable {
     
-    let _handler: (Value) -> Void
+    var _handler: ((Value) -> Void)?
     
     public init<Consumer: Consumable>(_ consumer: Consumer) where Value == Consumer.Value {
         _handler = {
@@ -18,7 +18,10 @@ public struct AnyConsumer<Value>: Consumable {
     }
     
     public func consume(with value: Value) {
-        _handler(value)
+        _handler?(value)
     }
-    
+}
+
+struct NonConsumer<Value>: Consumable {
+    public func consume(with value: Value) {}
 }
